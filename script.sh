@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Check if the number of arguments is less than 2
-if [ "$#" -lt 2 ]; then
-    echo "Usage: $0 <repository_url> <destination_folder>"
+# Check if the number of arguments is less than 2 or more than 3
+if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
+    echo "Usage: $0 <repository_url> <destination_folder> [use_env_file]"
     exit 1
 fi
 
@@ -34,7 +34,16 @@ echo "Removing old container"
 docker-compose down
 echo "Old container removed successfully."
 
-# Starting new instance
-echo "Starting new instance"
-docker-compose up -d
-echo "New instance started successfully."
+# Check if the third argument is "true" to use the env file, otherwise use the regular command
+if [ "$#" -eq 3 ] && [ "$3" == "true" ]; then
+    # Use the docker-compose --env-file command
+    echo "Building new container with environment file..."
+    docker-compose --env-file *.env up -d
+else
+    # Use the regular docker-compose up -d command
+    echo "Building new container..."
+    docker-compose up -d
+fi
+
+echo "Container started successfully."
+
