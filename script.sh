@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Check if the number of arguments is less than 2
-if [ "$#" -lt 1 ]; then
-    echo "Usage: $0 <destination_folder>"
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 <repository_url> <destination_folder>"
     exit 1
 fi
 
 # Get the repository URL and destination folder from command-line arguments
-repo_url="https://github.com/oussamaniba/Radyy.IO-Backend.git"
-destination_folder="$1"
+repo_url="$1"
+destination_folder="$2"
 
 # Check if the destination folder already exists
 if [ ! -d "$destination_folder" ]; then
