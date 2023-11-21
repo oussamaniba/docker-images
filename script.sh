@@ -20,6 +20,12 @@ fi
 # Change the current directory to the destination folder
 cd "$destination_folder" || exit
 
+#stash changes
+git stash
+
+#remove all changes
+git stash clear
+
 # Pull changes from the remote repository
 git pull
 echo "Changes pulled successfully."
