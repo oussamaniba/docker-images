@@ -45,7 +45,7 @@ docker-compose down || { echo 'Docker container removal failed'; exit 1; }
 echo "Old container removed successfully."
 
 # Check if the environment file is provided and exists
-if [ -n "$env_file" ] && [ -f "$env_file" ]; then
+if [ ! -f "$env_file" ]; then
     # Use the docker-compose with the env file
     echo "Building new container with environment file: $env_file"
     docker-compose --env-file "$env_file" up -d || { echo 'Docker up with env file failed'; exit 1; }
