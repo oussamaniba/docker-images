@@ -14,9 +14,7 @@ repo_url="$1"
 destination_folder="$2"
 
 # Optional: Get the environment file from the third argument, if provided
-env_file="$3"
-
-echo "Arguments passed: $@"
+env_file="${3:-}"
 
 # Check if the destination folder already exists
 if [ ! -d "$destination_folder" ]; then
