@@ -44,6 +44,8 @@ echo "Removing old container..."
 docker-compose down || { echo 'Docker container removal failed'; exit 1; }
 echo "Old container removed successfully."
 
+echo $env_file
+
 # Check if the environment file is provided and exists
 if [ ! -f "$env_file" ]; then
     # Use the docker-compose with the env file
