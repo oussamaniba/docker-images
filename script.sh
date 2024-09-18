@@ -16,6 +16,8 @@ destination_folder="$2"
 # Optional: Get the environment file from the third argument, if provided
 env_file="$3"
 
+echo "Arguments passed: $@"
+
 # Check if the destination folder already exists
 if [ ! -d "$destination_folder" ]; then
     # If it doesn't exist, clone the repository
