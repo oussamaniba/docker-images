@@ -13,9 +13,6 @@ fi
 repo_url="$1"
 destination_folder="$2"
 
-# Optional: Get the environment file from the third argument, if provided
-env_file="${3:-}"
-
 # Check if the destination folder already exists
 if [ ! -d "$destination_folder" ]; then
     # If it doesn't exist, clone the repository
@@ -44,17 +41,15 @@ echo "Removing old container..."
 docker-compose down || { echo 'Docker container removal failed'; exit 1; }
 echo "Old container removed successfully."
 
-echo $env_file
-
 # Check if the environment file is provided and exists
-if [ ! -f "$env_file" ]; then
-    # Use the docker-compose with the env file
-    echo "Building new container with environment file: $env_file"
-    docker-compose --env-file "$env_file" up -d || { echo 'Docker up with env file failed'; exit 1; }
+if [ "$#" -eq 3 ] && [ "$3" == "true" ]; then
+    # Use the docker-compose --env-file command
+    echo "Building new container with environment file..."
+    docker-compose --env-file *.env up -d
 else
     # Use the regular docker-compose up -d command
     echo "Building new container..."
-    docker-compose up -d || { echo 'Docker up failed'; exit 1; }
+    docker-compose up -d
 fi
 
 echo "Container started successfully."
