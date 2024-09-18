@@ -1,11 +1,8 @@
 #!/bin/bash
 
-# Exit immediately if any command exits with a non-zero status
-set -e
-
 # Check if the number of arguments is less than 2 or more than 3
 if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
-    echo "Usage: $0 <repository_url> <destination_folder> [env_file]"
+    echo "Usage: $0 <repository_url> <destination_folder> [use_env_file]"
     exit 1
 fi
 
@@ -23,25 +20,27 @@ fi
 # Change the current directory to the destination folder
 cd "$destination_folder" || exit
 
-# Stash any local changes and clear stashed changes
+#stash changes
 git stash
+
+#remove all changes
 git stash clear
 
 # Pull changes from the remote repository
 git pull
 echo "Changes pulled successfully."
 
-# Build the new container image
+# Building new container image
 echo "Building new container..."
-docker-compose build || { echo 'Docker build failed'; exit 1; }
+docker-compose build
 echo "Image built successfully."
 
-# Shut down the old instance
-echo "Removing old container..."
-docker-compose down || { echo 'Docker container removal failed'; exit 1; }
+# Shutting down old instance
+echo "Removing old container"
+docker-compose down
 echo "Old container removed successfully."
 
-# Check if the environment file is provided and exists
+# Check if the third argument is "true" to use the env file, otherwise use the regular command
 if [ "$#" -eq 3 ] && [ "$3" == "true" ]; then
     # Use the docker-compose --env-file command
     echo "Building new container with environment file..."
