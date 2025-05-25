@@ -42,7 +42,7 @@ echo "Old container removed successfully."
 
 # Check if an *.env file exists in the current directory
 if ls *.env 1> /dev/null 2>&1; then
-    Use the docker-compose --env-file command if an env file exists
+    # Use the docker-compose --env-file command if an env file exists
     echo "Building new container with environment file..."
     docker-compose --env-file=*.env up -d
 else
